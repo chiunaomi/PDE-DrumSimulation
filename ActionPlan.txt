@@ -4,6 +4,14 @@ To Dos
 1. Check solution to damped circular drum equation.
 2. Put Bessel function into Matlab.
 3. Solve for roots of Bessel function to quantize lambda.
-4. Define equation for surface displacement (z coordinate)
+4. Define equation for surface displacement (z coordinate).
+5. Plot surface displacement for specific values of t.
+6. Write a while loop to loop through t values to create 'animation'.
+
+4/30
+1. Check solution to damped circular drum equation. DONE
+2. Put Bessel function into Matlab. DONE
+3. Solve for roots of Bessel function to quantize lambda. DONE
+4. Define equation for surface displacement (z coordinate).
 5. Plot surface displacement for specific values of t.
 6. Write a while loop to loop through t values to create 'animation'.
