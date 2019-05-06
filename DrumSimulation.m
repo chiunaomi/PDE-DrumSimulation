@@ -1,5 +1,5 @@
 clear all
-clf
+close all
 
 A = 10000;
 alpha = .01;
@@ -7,13 +7,19 @@ rho = 0.05;
 rstar = 0.5; 
 thetastar = 0;
 
-x = 0:0.1:20;
+X = 0:0.1:20;
 J = zeros(5,201);
 for i = 0:4
-    J(i+1,:) = besselj(i,x);
+    J(i+1,:) = besselj(i,X);
 end
 bessellambda = find_zeros(J);
-
+for i = 1:5
+    if i == 1
+        squished(i,:) = X./bessellambda(i,1);
+    else
+        squished(i,:) = X./bessellambda(i,2);
+    end
+end
 [x,y] = meshgrid(-1:0.1:1,-1:0.1:1);
 [theta,r] = cart2pol(x,y);
 %r = 0:0.1:1;
@@ -22,7 +28,6 @@ u = (A/2*pi*rho).*exp((-1/(2*rho^2)).*((r.*cos(theta)-rstar*cos(thetastar)).^2+(
 [x,y,z] = pol2cart(theta,r,u);
 %x = r.*cos(theta);
 %y = r.*sin(theta);
-
 figure
 % polarplot(x,y);
 % hold on
@@ -30,8 +35,26 @@ figure
 % hold off
 surf(x,y,z)
 
+bessellambda = find_zeros(J);
+u2 = besselj(10, bessellambda*r)*cos(10*theta);
+[x,y,z2] = pol2cart(theta,r,u2);
+%x = r.*cos(theta);
+%y = r.*sin(theta);
+figure
+% polarplot(x,y);
+% hold on
+% contourf(x,y,u);
+% hold off
+surf(x,y,z2)
 t = 1; 
 T = exp(-alpha*t/2).*(cos((sqrt(alpha^2+4.*bessellambda).*t)./2)+sin((sqrt(alpha^2+4.*bessellambda).*t)./2));
+a = [];
+b = [];
+for n = 1:10
+    base = @(r,theta) cos(n*theta)*besselj(bessellambda(i)*r, 10);
+    a(:,i) = integrate(integrate(u(theta, r).*base(r, theta).*r, 0, 1), -pi, pi);
+end
+    
 %% Functions
 function lambda = find_zeros(bessel_functions)
     [m,n] = size(bessel_functions);
